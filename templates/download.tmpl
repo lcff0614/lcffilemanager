@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{.href}}ダイどデプ</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body style="background-color: gray">
+<nav class="navbar navbar-light bg-dark">
+    <a class="navbar-brand" href="http://{{.host}}/index/?h=G:/" style="color: snow">~Index~</a>
+    <!--<form class="form-inline" action="search.html">
+        <input name="q" id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>-->
+</nav>
+<div id="hold" style="margin-top: 10px"></div>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" id="bread">
+        </ol>
+    </nav>
+    <div style="margin-top: 10px"></div>
+    <div class="container card shadow-lg" style="background-color: white;min-height: 500px;text-align: center">
+        <h4 id="filename" style="text-align: center"></h4>
+        <h6 id="size"></h6>
+        <h6 id="modTime"></h6>
+    </div>
+    <div style="margin-top: 10px"></div>
+    <div class="container" style="text-align: center">
+        <a id="download" style="text-decoration: none;" class="btn btn-primary">下载</a>
+    </div>
+</div>
+<div class="container">
+
+</div>
+
+</body>
+<script type="text/javascript">
+    let strs = {{.strs}}
+        console.log(strs)
+    let now = "http://{{.host}}/index/?h="
+    now+=strs[0].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+"/"
+    $("#bread").append('<li class="breadcrumb-item"><a href="'+(now)+'">'+strs[0].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+'</a></li>')
+    for (let i=1;i<strs.length-1;i++){
+        now+=strs[i].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")
+        $("#bread").append('<li class="breadcrumb-item"><a href="'+(now)+'">'+strs[i].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+'</a></li>')
+        now+="/"
+    }
+    $("#bread").append('<li class="breadcrumb-item active" aria-current="page">'+strs[strs.length-1].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+'</li>')
+    let href = "http://{{.host}}/download/?h="
+    for (let i=0;i<strs.length-1;i++){
+        href+=strs[i]+"/"
+    }
+    href+=strs[strs.length-1]
+    href=href.replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")
+    $("#download").attr("href",href)
+</script>
+<script type="text/javascript">
+    let modTime={{.modTime}};
+    let size={{.size}};
+    let mode={{.mode}};
+    let fileName={{.filename}};
+    function sizer(size) {
+        let sizes
+        switch (true) {
+            case size<=1024:
+                sizes=(size)+" B";
+                return sizes;
+            case 1024<size<=Math.pow(1024,2):
+                sizes=(size/1024)+" KB";
+                return sizes;
+            case Math.pow(1024,2)<size<=Math.pow(1024,3):
+                sizes=(size/Math.pow(1024,2))+" MB"
+                return sizes;
+            case Math.pow(1024,3)<size<=Math.pow(1024,4):
+                sizes=(size/Math.pow(1024,3))+" GB"
+                return sizes;
+            case Math.pow(1024,4)<size<=Math.pow(1024,5):
+                sizes=(size/Math.pow(1024,4))+" TB"
+                return sizes;
+        }
+    }
+    $("#filename").text(fileName)
+    console.log(size)
+    $("#size").text("大小："+(size/1024).toFixed(0)+"kb")
+    $("#modTime").text("修改时间："+modTime)
+</script>
+</html>

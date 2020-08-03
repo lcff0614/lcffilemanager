@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>{{.href}}ダイどデプ</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body style="background-color: gray">
+<nav class="navbar navbar-light bg-dark">
+    <a class="navbar-brand" href="http://{{.host}}/index/?h=G:/" style="color: snow">~Index~</a>
+    <form class="form-inline" action="/search/">
+        <input name="q" id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button id="btn" class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+    </form>
+</nav>
+<script type="text/javascript">
+    $("#btn").click(function () {
+        window.location.href="http://{{.host}}/search/?q="+$("#search").val()+"&"+("p="+ {{.href}}).replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")
+    })
+</script>
+<div id="hold" style="margin-top: 10px"></div>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" id="bread">
+
+        </ol>
+    </nav>
+    <div style="margin-top: 10px"></div>
+    <div id="list" >
+
+    </div>
+</div>
+<div class="container">
+
+</div>
+
+</body>
+<script type="text/javascript">
+    host={{.host}}
+    function js (jsonObj) {
+        let arr=[];
+        for(let key in jsonObj){
+            arr.push(key)
+        }
+        arr.sort();
+        let str='';
+        for(let i in arr){
+            str +=arr[i]+"="+jsonObj[arr[i]]+"&"
+        }
+        return str.substr(0,str.length-1)
+    }
+    let strs = {{.strs}}
+        console.log(strs)
+    let now = "http://{{.host}}/index/?h="
+    now+=strs[0].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+"/"
+    $("#bread").append('<li class="breadcrumb-item"><a href="'+(now)+'">'+strs[0].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+'</a></li>')
+    for (let i=1;i<strs.length-1;i++){
+        now+=strs[i].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")
+        $("#bread").append('<li class="breadcrumb-item"><a href="'+(now)+'">'+strs[i].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+'</a></li>')
+        now+="/"
+    }
+    $("#bread").append('<li class="breadcrumb-item active" aria-current="page">'+strs[strs.length-1].replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")+'</li>')
+    let list = {{.list}}
+        list.sort(function(a, b){
+            return a.Num - b.Num;
+        });
+        console.log(list)
+    a=list.sort(function(a, b){
+        return a.IsDir - b.IsDir;
+    });
+        console.log(a)
+    for (let i=0;i<=list.length-1;i++){
+        //console.log(list[i].Num)
+        let src
+        let style
+        if (list[i].IsDir){
+            src="http://"+host+"/static/2.png"
+            style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+        }else{
+            let tp=getFileType(list[i].Name)
+            console.log(tp)
+            if (tp==="png"||tp==="jpg"){
+                src="http://"+host+"/static/image.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if (tp==="gif"){
+                src="http://"+host+"/static/gif.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if (tp==="txt"){
+                src="http://"+host+"/static/txt.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if (tp==="zip"||tp==="rar"||tp==="7z"||tp==="tar.gz"){
+                src="http://"+host+"/static/2.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if(tp==="html"){
+                src="http://"+host+"/static/html.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if (tp==="wav"){
+                src="http://"+host+"/static/wav.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if (tp==="mp3"){
+                src="http://"+host+"/static/mp3.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if (tp==="mp4"){
+                src="http://"+host+"/static/video.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }else
+            if (tp==="exe"){
+                src="http://"+host+"/static/exe.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }
+
+            else {
+                src="http://"+host+"/static/ufile.svg"
+                style="margin-top:4px;margin-bottom:4px;margin-left:4px"
+            }
+        }
+
+
+
+        $("#list").append(
+            '<div class="media rounded shadow-lg" style="background-color: white" id="'+(i+1)+'">' +
+            '<img src="'+src+'" width="100px" style="'+style+'" class="mr-3 rounded" alt="...">' +
+            '<div class="media-body">' +
+            '<h5 class="mt-0">'+list[i].Name+'</h5>' +
+            '<a style="color: red">'+(list[i].Num+1)+'</a>'+'<a>'+'</a>'+
+            '</div>' +
+            '</div>' +
+            '<div style="margin-top: 10px"></div>' )
+    }
+    function getFileType(filePath){
+        let startIndex = filePath.lastIndexOf(".");
+        if(startIndex !== -1)
+            return filePath.substring(startIndex+1, filePath.length).toLowerCase();
+        else return "";
+    }
+    console.log(list)
+</script>
+<script type="text/javascript">
+    $(".media").click(function () {
+        let id = $(this).attr("id")
+        let wloc = window.location.href
+        //console.log(typeof wloc)
+        if (wloc.charAt(window.location.href.length-1)==="/"){
+            window.location=window.location+list[id-1].Name.replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")
+        }else {
+            //console.log(wloc.charAt(window.location.length-1))
+            window.location=window.location+"/"+list[id-1].Name.replace(/%/g,"%25").replace(/#/g,"%23").replace(/&/g,"%26").replace(/;/g,"%3B")
+        }
+    })
+</script>
+</html>
