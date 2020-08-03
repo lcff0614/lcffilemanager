@@ -166,6 +166,7 @@ func lastDirPath(h string)string  {
 			pos = append(pos, strings.Index(h[pos[i-1]+1:], "/")+pos[i-1]+1)
 		}
 	}
+
 	lastDir:=h[0:pos[len(pos)-1]]
 	return lastDir
 }

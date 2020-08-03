@@ -6,6 +6,7 @@
 * 运行
   #### 直接run main.go
   #### 在浏览器里访问[host]/index/?h=[盘符]:/
+  ![architecture](doc/2.png)
 * 搜索
   #### 输入框中搜索当前文件夹下所有 包括子目录
 * 问题

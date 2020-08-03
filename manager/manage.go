@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -67,13 +68,17 @@ func IsExistFileOrDir (path string)(types bool,exist bool)  {
 
 func ImgInSameDir(pwd string)[]Img{
 	var Imgs []Img
-	fileInfoList,_ := ioutil.ReadDir(pwd)
+	fileInfoList,err := ioutil.ReadDir(pwd)
+	if err!=nil {
+		fmt.Println(err)
+	}
 	for i := range fileInfoList {
 		h:=pwd+"/"+fileInfoList[i].Name()
+		//fmt.Println(h)
 		types,exist:=IsExistFileOrDir(h)
 		//fmt.Println(exist,types)
 		if exist&&!types {
-			var a =path.Ext(h)
+			var a =strings.ToLower(path.Ext(h))
 			//fmt.Println(a)
 			if a==".jpg"||a==".png"||a==".gif" {
 				Imgs = append(Imgs,Img{
@@ -84,6 +89,7 @@ func ImgInSameDir(pwd string)[]Img{
 		}
 
 	}
+	fmt.Println(Imgs)
 	return Imgs
 }
 
