@@ -23,7 +23,7 @@
   3. 实际上，我的用途是看一些河蟹的东西（~~为什么不能在电脑上直接看？？？~~），而百度网盘也有什么净网行动
   4. 同样喜欢 编程/音游/v家/gal/芦苇娘/a岛 的大哥哥~~和小姐姐~~们看我看我！
   #### 我的账号 [acfun](https://www.acfun.cn/u/14402634) [bilibili](https://space.bilibili.com/44067270) [wyy](https://music.163.com/#/user/home?id=1295123060) [个人blog](https://didodip.moe/blog) [twitter](https://twitter.com/Didodip0614)
-  ###[osu(来加我好友！！)](https://osu.ppy.sh/users/15475115)
+  ### [osu(来加我好友！！)](https://osu.ppy.sh/users/15475115)
   ###### 企鹅：2967377955
-  ###![architecture](doc/1.jpg)
+  ### ![architecture](doc/1.jpg)
   ##### 是的你没看错，这只是一个扩列的项目
